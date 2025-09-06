@@ -1,0 +1,132 @@
+<mat-toolbar color="primary">
+  <span>ATS Dashboard</span>
+  <span class="spacer"></span>
+  <span *ngIf="currentUser">Welcome, {{currentUser.firstName}} {{currentUser.lastName}}</span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<div class="dashboard-container">
+  <!-- KPI Cards -->
+  <mat-grid-list cols="4" rowHeight="150px" gutterSize="16px" class="kpi-grid">
+    <mat-grid-tile>
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-content">
+            <mat-icon color="primary" class="kpi-icon">work</mat-icon>
+            <div class="kpi-text">
+              <h2>{{dashboardData.totalJobs}}</h2>
+              <p>Total Jobs</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-content">
+            <mat-icon color="accent" class="kpi-icon">assignment</mat-icon>
+            <div class="kpi-text">
+              <h2>{{dashboardData.totalApplications}}</h2>
+              <p>Total Applications</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-content">
+            <mat-icon color="warn" class="kpi-icon">calendar_today</mat-icon>
+            <div class="kpi-text">
+              <h2>{{dashboardData.interviewsThisWeek}}</h2>
+              <p>Interviews This Week</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card class="kpi-card">
+        <mat-card-content>
+          <div class="kpi-content">
+            <mat-icon style="color: green" class="kpi-icon">check_circle</mat-icon>
+            <div class="kpi-text">
+              <h2>{{dashboardData.hiredThisMonth}}</h2>
+              <p>Hired This Month</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!-- Action Cards -->
+  <div class="action-section">
+    <h2>Quick Actions</h2>
+    <mat-grid-list cols="3" rowHeight="200px" gutterSize="16px">
+      <mat-grid-tile *ngIf="currentUser?.role === UserRole.HR || currentUser?.role === UserRole.Manager">
+        <mat-card class="action-card" (click)="navigateToJobs()">
+          <mat-card-content>
+            <mat-icon class="action-icon">work_outline</mat-icon>
+            <h3>Manage Jobs</h3>
+            <p>Create and manage job postings</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="currentUser?.role === UserRole.HR">
+        <mat-card class="action-card" (click)="navigateToCandidates()">
+          <mat-card-content>
+            <mat-icon class="action-icon">people_outline</mat-icon>
+            <h3>View Candidates</h3>
+            <p>Browse and manage candidates</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="action-card" (click)="navigateToApplications()">
+          <mat-card-content>
+            <mat-icon class="action-icon">assignment_ind</mat-icon>
+            <h3>Applications</h3>
+            <p>Review job applications</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="action-card" (click)="navigateToInterviews()">
+          <mat-card-content>
+            <mat-icon class="action-icon">event</mat-icon>
+            <h3>Interviews</h3>
+            <p>Schedule and manage interviews</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="activity-section">
+    <h2>Recent Activity</h2>
+    <mat-card>
+      <mat-card-content>
+        <p>Recent activity will be displayed here...</p>
+        <!-- TODO: Implement recent activity feed -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
