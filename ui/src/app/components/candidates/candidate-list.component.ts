@@ -12,23 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-
-interface Candidate {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  location: string;
-  currentJobTitle: string;
-  experience: number;
-  skills: string[];
-  resumeUrl?: string;
-  totalApplications: number;
-  lastApplicationDate?: Date;
-  status: string;
-  createdAt: Date;
-}
+import { CandidateService, Candidate } from '../../services/candidate.service';
 
 @Component({
   selector: 'app-candidate-list',
@@ -342,11 +326,13 @@ interface Candidate {
 export class CandidateListComponent implements OnInit {
   candidates: Candidate[] = [];
   filteredCandidates: Candidate[] = [];
+  isLoading = false;
   searchTerm: string = '';
   displayedColumns: string[] = ['name', 'currentPosition', 'experience', 'skills', 'applications', 'status', 'actions'];
 
   constructor(
     private authService: AuthService,
+    private candidateService: CandidateService,
     private router: Router
   ) {}
 
@@ -355,57 +341,85 @@ export class CandidateListComponent implements OnInit {
   }
 
   loadCandidates(): void {
-    this.candidates = [
+    this.isLoading = true;
+    this.candidateService.getCandidates().subscribe({
+      next: (candidates) => {
+        this.candidates = candidates;
+        this.filteredCandidates = candidates;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading candidates:', error);
+        this.isLoading = false;
+        // Fall back to mock data on error
+        this.candidates = this.getMockCandidates();
+        this.filteredCandidates = this.candidates;
+      }
+    });
+  }
+
+  private getMockCandidates(): Candidate[] {
+    return [
       {
         id: 1,
         firstName: 'John',
         lastName: 'Doe',
         email: 'john.doe@email.com',
-        phone: '+1 (555) 123-4567',
-        location: 'San Francisco, CA',
+        phoneNumber: '+1 (555) 123-4567',
+        address: 'San Francisco, CA',
         currentJobTitle: 'Software Engineer',
-        experience: 5,
+        currentCompany: 'Tech Corp',
+        yearsOfExperience: 5,
         skills: ['JavaScript', 'React', 'Node.js', 'TypeScript', 'AWS', 'Docker'],
-        resumeUrl: '/resumes/john-doe.pdf',
-        totalApplications: 3,
-        lastApplicationDate: new Date('2024-01-20'),
-        status: 'Active',
-        createdAt: new Date('2024-01-01')
+        applicationCount: 3,
+        isAvailable: true,
+        expectedSalary: 150000,
+        summary: 'Experienced software engineer with full-stack development skills',
+        linkedInProfile: 'linkedin.com/in/johndoe',
+        gitHubProfile: 'github.com/johndoe',
+        portfolio: 'johndoe.dev',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-01-20')
       },
       {
         id: 2,
         firstName: 'Jane',
         lastName: 'Smith',
         email: 'jane.smith@email.com',
-        phone: '+1 (555) 987-6543',
-        location: 'New York, NY',
+        phoneNumber: '+1 (555) 987-6543',
+        address: 'New York, NY',
         currentJobTitle: 'Product Manager',
-        experience: 7,
+        currentCompany: 'Product Inc',
+        yearsOfExperience: 7,
         skills: ['Product Strategy', 'Agile', 'Data Analysis', 'User Research', 'SQL'],
-        resumeUrl: '/resumes/jane-smith.pdf',
-        totalApplications: 2,
-        lastApplicationDate: new Date('2024-01-18'),
-        status: 'Active',
-        createdAt: new Date('2024-01-05')
+        applicationCount: 2,
+        isAvailable: true,
+        expectedSalary: 140000,
+        summary: 'Strategic product manager with data-driven approach',
+        linkedInProfile: 'linkedin.com/in/janesmith',
+        createdAt: new Date('2024-01-05'),
+        updatedAt: new Date('2024-01-18')
       },
       {
         id: 3,
         firstName: 'Michael',
         lastName: 'Johnson',
         email: 'michael.johnson@email.com',
-        phone: '+1 (555) 456-7890',
-        location: 'Austin, TX',
+        phoneNumber: '+1 (555) 456-7890',
+        address: 'Austin, TX',
         currentJobTitle: 'UX Designer',
-        experience: 3,
+        currentCompany: 'Design Studio',
+        yearsOfExperience: 3,
         skills: ['Figma', 'Adobe Creative Suite', 'User Research', 'Prototyping', 'HTML/CSS'],
-        resumeUrl: '/resumes/michael-johnson.pdf',
-        totalApplications: 1,
-        lastApplicationDate: new Date('2024-01-15'),
-        status: 'Active',
-        createdAt: new Date('2024-01-10')
+        applicationCount: 1,
+        isAvailable: true,
+        expectedSalary: 110000,
+        summary: 'Creative UX designer focused on user-centered design',
+        portfolio: 'michaeljohnson.design',
+        createdAt: new Date('2024-01-10'),
+        updatedAt: new Date('2024-01-15')
       }
     ];
-    this.filteredCandidates = [...this.candidates];
   }
 
   onSearch(): void {
@@ -419,8 +433,8 @@ export class CandidateListComponent implements OnInit {
       candidate.firstName.toLowerCase().includes(term) ||
       candidate.lastName.toLowerCase().includes(term) ||
       candidate.email.toLowerCase().includes(term) ||
-      candidate.currentJobTitle.toLowerCase().includes(term) ||
-      candidate.location.toLowerCase().includes(term) ||
+      (candidate.currentJobTitle && candidate.currentJobTitle.toLowerCase().includes(term)) ||
+      (candidate.address && candidate.address.toLowerCase().includes(term)) ||
       candidate.skills.some(skill => skill.toLowerCase().includes(term))
     );
   }
@@ -447,8 +461,10 @@ export class CandidateListComponent implements OnInit {
   }
 
   viewResume(candidate: Candidate): void {
-    if (candidate.resumeUrl) {
-      window.open(candidate.resumeUrl, '_blank');
+    if (candidate.portfolio) {
+      window.open(candidate.portfolio, '_blank');
+    } else {
+      console.log('No portfolio available for', candidate.firstName, candidate.lastName);
     }
   }
 

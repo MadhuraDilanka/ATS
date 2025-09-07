@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { DashboardService, DashboardData, QuickStats, RecentActivity } from '../../services/dashboard.service';
 import { UserRole } from '../../models/enums';
 
 @Component({
@@ -27,19 +28,27 @@ import { UserRole } from '../../models/enums';
 export class DashboardComponent implements OnInit {
   currentUser: any;
   UserRole = UserRole;
+  isLoading = false;
 
-  dashboardData = {
+  dashboardData: DashboardData = {
     totalJobs: 0,
     activeJobs: 0,
     totalApplications: 0,
     newApplicationsThisMonth: 0,
     interviewsThisWeek: 0,
     hiredThisMonth: 0,
-    conversionRate: 0
+    conversionRate: 0,
+    jobStatusBreakdown: [],
+    applicationStatusBreakdown: [],
+    monthlyHiring: [],
+    departmentBreakdown: []
   };
+
+  recentActivities: RecentActivity[] = [];
 
   constructor(
     private authService: AuthService,
+    private dashboardService: DashboardService,
     private router: Router
   ) {}
 
@@ -49,6 +58,31 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboardData(): void {
+    this.isLoading = true;
+    
+    this.dashboardService.getDashboardData().subscribe({
+      next: (data) => {
+        this.dashboardData = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading dashboard data:', error);
+        this.isLoading = false;
+        this.loadMockData();
+      }
+    });
+
+    this.dashboardService.getRecentActivities().subscribe({
+      next: (activities) => {
+        this.recentActivities = activities;
+      },
+      error: (error) => {
+        console.error('Error loading recent activities:', error);
+      }
+    });
+  }
+
+  private loadMockData(): void {
     this.dashboardData = {
       totalJobs: 25,
       activeJobs: 12,
@@ -56,7 +90,20 @@ export class DashboardComponent implements OnInit {
       newApplicationsThisMonth: 45,
       interviewsThisWeek: 8,
       hiredThisMonth: 3,
-      conversionRate: 12.5
+      conversionRate: 12.5,
+      jobStatusBreakdown: [
+        { status: 'Active', count: 12 },
+        { status: 'Closed', count: 8 },
+        { status: 'Draft', count: 5 }
+      ],
+      applicationStatusBreakdown: [
+        { status: 'Applied', count: 150 },
+        { status: 'InReview', count: 45 },
+        { status: 'Interview', count: 25 },
+        { status: 'Hired', count: 14 }
+      ],
+      monthlyHiring: [],
+      departmentBreakdown: []
     };
   }
 

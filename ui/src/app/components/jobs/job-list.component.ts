@@ -9,20 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { UserRole } from '../../models/enums';
-
-interface Job {
-  id: number;
-  title: string;
-  department: string;
-  location: string;
-  employmentType: string;
-  salaryRange: string;
-  status: string;
-  postedDate: Date;
-  closingDate: Date;
-  applicationsCount: number;
-}
+import { JobService, Job } from '../../services/job.service';
+import { UserRole, EmploymentType, JobStatus, ExperienceLevel } from '../../models/enums';
 
 @Component({
   selector: 'app-job-list',
@@ -105,7 +93,7 @@ interface Job {
                 <td mat-cell *matCellDef="let job">
                   <div class="applications-count">
                     <mat-icon>people</mat-icon>
-                    {{ job.applicationsCount }}
+                    {{ job.applicationCount }}
                   </div>
                 </td>
               </ng-container>
@@ -132,7 +120,7 @@ interface Job {
                     </button>
                     <button mat-menu-item (click)="viewApplications(job)" *ngIf="canViewApplications()">
                       <mat-icon>assignment</mat-icon>
-                      View Applications ({{ job.applicationsCount }})
+                      View Applications ({{ job.applicationCount }})
                     </button>
                     <button mat-menu-item (click)="editJob(job)" *ngIf="canEditJob()">
                       <mat-icon>edit</mat-icon>
@@ -239,10 +227,12 @@ interface Job {
 })
 export class JobListComponent implements OnInit {
   jobs: Job[] = [];
+  isLoading = false;
   displayedColumns: string[] = ['title', 'location', 'employmentType', 'status', 'applications', 'closingDate', 'actions'];
 
   constructor(
     private authService: AuthService,
+    private jobService: JobService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -252,42 +242,85 @@ export class JobListComponent implements OnInit {
   }
 
   loadJobs(): void {
-    this.jobs = [
+    this.isLoading = true;
+    this.jobService.getJobs().subscribe({
+      next: (jobs) => {
+        this.jobs = jobs;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading jobs:', error);
+        this.isLoading = false;
+        // Fall back to mock data on error
+        this.jobs = this.getMockJobs();
+      }
+    });
+  }
+
+  private getMockJobs(): Job[] {
+    return [
       {
         id: 1,
         title: 'Senior Software Engineer',
         department: 'Engineering',
         location: 'San Francisco, CA',
-        employmentType: 'Full-time',
-        salaryRange: '$120,000 - $160,000',
-        status: 'Active',
-        postedDate: new Date('2024-01-15'),
+        employmentType: EmploymentType.FullTime,
+        experienceLevel: ExperienceLevel.Senior,
+        salaryMin: 120000,
+        salaryMax: 160000,
+        status: JobStatus.Active,
         closingDate: new Date('2024-02-15'),
-        applicationsCount: 25
+        maxApplications: 50,
+        isRemoteAllowed: true,
+        hiringManagerId: 1,
+        hiringManagerName: 'John Doe',
+        applicationCount: 25,
+        description: 'We are looking for a senior software engineer...',
+        requirements: 'Bachelor\'s degree in Computer Science...',
+        createdAt: new Date('2024-01-15'),
+        updatedAt: new Date('2024-01-15')
       },
       {
         id: 2,
         title: 'Product Manager',
         department: 'Product',
         location: 'New York, NY',
-        employmentType: 'Full-time',
-        salaryRange: '$110,000 - $140,000',
-        status: 'Active',
-        postedDate: new Date('2024-01-10'),
+        employmentType: EmploymentType.FullTime,
+        experienceLevel: ExperienceLevel.Mid,
+        salaryMin: 110000,
+        salaryMax: 140000,
+        status: JobStatus.Active,
         closingDate: new Date('2024-02-10'),
-        applicationsCount: 18
+        maxApplications: 30,
+        isRemoteAllowed: false,
+        hiringManagerId: 2,
+        hiringManagerName: 'Jane Smith',
+        applicationCount: 18,
+        description: 'Seeking an experienced product manager...',
+        requirements: 'MBA or equivalent experience...',
+        createdAt: new Date('2024-01-10'),
+        updatedAt: new Date('2024-01-10')
       },
       {
         id: 3,
         title: 'UX Designer',
         department: 'Design',
         location: 'Remote',
-        employmentType: 'Contract',
-        salaryRange: '$80,000 - $100,000',
-        status: 'Draft',
-        postedDate: new Date('2024-01-20'),
+        employmentType: EmploymentType.Contract,
+        experienceLevel: ExperienceLevel.Junior,
+        salaryMin: 80000,
+        salaryMax: 100000,
+        status: JobStatus.Draft,
         closingDate: new Date('2024-02-20'),
-        applicationsCount: 0
+        maxApplications: 20,
+        isRemoteAllowed: true,
+        hiringManagerId: 3,
+        hiringManagerName: 'Mike Johnson',
+        applicationCount: 0,
+        description: 'We need a creative UX designer...',
+        requirements: 'Portfolio showcasing UX design skills...',
+        createdAt: new Date('2024-01-20'),
+        updatedAt: new Date('2024-01-20')
       }
     ];
   }

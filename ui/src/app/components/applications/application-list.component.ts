@@ -12,25 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-
-interface Application {
-  id: number;
-  candidateId: number;
-  candidateName: string;
-  candidateEmail: string;
-  jobId: number;
-  jobTitle: string;
-  department: string;
-  applicationDate: Date;
-  status: string;
-  stage: string;
-  notes?: string;
-  resumeUrl?: string;
-  coverLetterUrl?: string;
-  score?: number;
-  interviewCount: number;
-  lastInterviewDate?: Date;
-}
+import { ApplicationService, Application } from '../../services/application.service';
+import { ApplicationStatus } from '../../models/enums';
 
 @Component({
   selector: 'app-application-list',
@@ -376,12 +359,14 @@ interface Application {
 export class ApplicationListComponent implements OnInit {
   applications: Application[] = [];
   filteredApplications: Application[] = [];
+  isLoading = false;
   selectedStatus: string = '';
   selectedStage: string = '';
-  displayedColumns: string[] = ['candidate', 'job', 'status', 'stage', 'score', 'interviews', 'actions'];
+  displayedColumns: string[] = ['candidate', 'job', 'status', 'score', 'interviews', 'actions'];
 
   constructor(
     private authService: AuthService,
+    private applicationService: ApplicationService,
     private router: Router
   ) {}
 
@@ -390,7 +375,25 @@ export class ApplicationListComponent implements OnInit {
   }
 
   loadApplications(): void {
-    this.applications = [
+    this.isLoading = true;
+    this.applicationService.getApplications().subscribe({
+      next: (applications) => {
+        this.applications = applications;
+        this.filteredApplications = applications;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading applications:', error);
+        this.isLoading = false;
+        // Fall back to mock data on error
+        this.applications = this.getMockApplications();
+        this.filteredApplications = this.applications;
+      }
+    });
+  }
+
+  private getMockApplications(): Application[] {
+    return [
       {
         id: 1,
         candidateId: 1,
@@ -398,15 +401,17 @@ export class ApplicationListComponent implements OnInit {
         candidateEmail: 'john.doe@email.com',
         jobId: 1,
         jobTitle: 'Senior Software Engineer',
-        department: 'Engineering',
-        applicationDate: new Date('2024-01-20'),
-        status: 'Under Review',
-        stage: 'Technical Interview',
-        score: 85,
+        appliedDate: new Date('2024-01-20'),
+        status: ApplicationStatus.ScreeningInProgress,
+        rating: 85,
         interviewCount: 2,
-        lastInterviewDate: new Date('2024-01-25'),
-        resumeUrl: '/resumes/john-doe.pdf',
-        coverLetterUrl: '/cover-letters/john-doe.pdf'
+        notes: 'Strong technical background',
+        reviewerNotes: 'Excellent candidate for technical role',
+        reviewerId: 1,
+        reviewerName: 'HR Manager',
+        coverLetter: 'I am excited to apply for this position...',
+        createdAt: new Date('2024-01-20'),
+        updatedAt: new Date('2024-01-25')
       },
       {
         id: 2,
@@ -415,14 +420,16 @@ export class ApplicationListComponent implements OnInit {
         candidateEmail: 'jane.smith@email.com',
         jobId: 2,
         jobTitle: 'Product Manager',
-        department: 'Product',
-        applicationDate: new Date('2024-01-18'),
-        status: 'Interview Scheduled',
-        stage: 'Final Interview',
-        score: 92,
+        appliedDate: new Date('2024-01-18'),
+        status: ApplicationStatus.InterviewScheduled,
+        rating: 92,
         interviewCount: 3,
-        lastInterviewDate: new Date('2024-01-28'),
-        resumeUrl: '/resumes/jane-smith.pdf'
+        notes: 'Excellent product management experience',
+        reviewerNotes: 'Top candidate for PM role',
+        reviewerId: 2,
+        reviewerName: 'VP Product',
+        createdAt: new Date('2024-01-18'),
+        updatedAt: new Date('2024-01-28')
       },
       {
         id: 3,
@@ -431,23 +438,20 @@ export class ApplicationListComponent implements OnInit {
         candidateEmail: 'michael.johnson@email.com',
         jobId: 3,
         jobTitle: 'UX Designer',
-        department: 'Design',
-        applicationDate: new Date('2024-01-15'),
-        status: 'Applied',
-        stage: 'Application Review',
+        appliedDate: new Date('2024-01-15'),
+        status: ApplicationStatus.Applied,
         interviewCount: 0,
-        resumeUrl: '/resumes/michael-johnson.pdf',
-        coverLetterUrl: '/cover-letters/michael-johnson.pdf'
+        coverLetter: 'My design philosophy centers on user-centered design...',
+        createdAt: new Date('2024-01-15'),
+        updatedAt: new Date('2024-01-15')
       }
     ];
-    this.filteredApplications = [...this.applications];
   }
 
   onFilterChange(): void {
     this.filteredApplications = this.applications.filter(application => {
-      const statusMatch = !this.selectedStatus || application.status === this.selectedStatus;
-      const stageMatch = !this.selectedStage || application.stage === this.selectedStage;
-      return statusMatch && stageMatch;
+      const statusMatch = !this.selectedStatus || application.status.toString() === this.selectedStatus;
+      return statusMatch;
     });
   }
 
@@ -478,14 +482,17 @@ export class ApplicationListComponent implements OnInit {
   }
 
   viewResume(application: Application): void {
-    if (application.resumeUrl) {
-      window.open(application.resumeUrl, '_blank');
-    }
+    // Since the Application interface doesn't have resumeUrl, 
+    // we could navigate to candidate detail or show a message
+    this.router.navigate(['/candidates', application.candidateId]);
   }
 
   viewCoverLetter(application: Application): void {
-    if (application.coverLetterUrl) {
-      window.open(application.coverLetterUrl, '_blank');
+    if (application.coverLetter) {
+      // Display cover letter in a dialog or navigate to detailed view
+      console.log('Cover Letter:', application.coverLetter);
+    } else {
+      console.log('No cover letter available');
     }
   }
 
