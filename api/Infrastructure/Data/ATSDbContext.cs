@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using api.Core.Entities;
+using ApplicationEntity = api.Core.Entities.Application;
 
 namespace api.Infrastructure.Data;
 
@@ -17,7 +18,7 @@ public class ATSDbContext : DbContext
     public DbSet<CandidateSkill> CandidateSkills { get; set; }
     public DbSet<Experience> Experiences { get; set; }
     public DbSet<Education> Educations { get; set; }
-    public DbSet<Application> Applications { get; set; }
+    public DbSet<ApplicationEntity> Applications { get; set; }
     public DbSet<Interview> Interviews { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<ApplicationDocument> ApplicationDocuments { get; set; }
@@ -26,7 +27,6 @@ public class ATSDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configure User entity
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasIndex(e => e.Email).IsUnique();
@@ -36,7 +36,6 @@ public class ATSDbContext : DbContext
             entity.Property(e => e.PasswordHash).IsRequired();
         });
 
-        // Configure Job entity
         modelBuilder.Entity<Job>(entity =>
         {
             entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
@@ -53,7 +52,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // Configure Skill entity
         modelBuilder.Entity<Skill>(entity =>
         {
             entity.HasIndex(e => e.Name).IsUnique();
@@ -61,7 +59,6 @@ public class ATSDbContext : DbContext
             entity.Property(e => e.Category).IsRequired().HasMaxLength(50);
         });
 
-        // Configure JobSkill entity
         modelBuilder.Entity<JobSkill>(entity =>
         {
             entity.HasKey(js => new { js.JobId, js.SkillId });
@@ -77,7 +74,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Configure Candidate entity
         modelBuilder.Entity<Candidate>(entity =>
         {
             entity.HasIndex(e => e.Email).IsUnique();
@@ -87,7 +83,6 @@ public class ATSDbContext : DbContext
             entity.Property(e => e.ExpectedSalary).HasColumnType("decimal(18,2)");
         });
 
-        // Configure CandidateSkill entity
         modelBuilder.Entity<CandidateSkill>(entity =>
         {
             entity.HasKey(cs => new { cs.CandidateId, cs.SkillId });
@@ -103,7 +98,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Configure Experience entity
         modelBuilder.Entity<Experience>(entity =>
         {
             entity.Property(e => e.JobTitle).IsRequired().HasMaxLength(200);
@@ -115,7 +109,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Configure Education entity
         modelBuilder.Entity<Education>(entity =>
         {
             entity.Property(e => e.Institution).IsRequired().HasMaxLength(200);
@@ -127,8 +120,7 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Configure Application entity
-        modelBuilder.Entity<Application>(entity =>
+        modelBuilder.Entity<ApplicationEntity>(entity =>
         {
             entity.HasOne(a => a.Job)
                   .WithMany(j => j.Applications)
@@ -146,7 +138,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.SetNull);
         });
 
-        // Configure Interview entity
         modelBuilder.Entity<Interview>(entity =>
         {
             entity.HasOne(i => i.Application)
@@ -160,7 +151,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // Configure Document entity
         modelBuilder.Entity<Document>(entity =>
         {
             entity.Property(d => d.FileName).IsRequired().HasMaxLength(255);
@@ -174,7 +164,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Configure ApplicationDocument entity
         modelBuilder.Entity<ApplicationDocument>(entity =>
         {
             entity.HasKey(ad => new { ad.ApplicationId, ad.DocumentId });
@@ -190,7 +179,6 @@ public class ATSDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Set default values for base entity properties
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))

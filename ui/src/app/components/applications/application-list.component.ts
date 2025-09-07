@@ -390,7 +390,6 @@ export class ApplicationListComponent implements OnInit {
   }
 
   loadApplications(): void {
-    // Mock data - replace with actual API call
     this.applications = [
       {
         id: 1,
@@ -500,17 +499,14 @@ export class ApplicationListComponent implements OnInit {
   }
 
   updateStatus(application: Application): void {
-    // Implement status update dialog
     console.log('Updating status for:', application);
   }
 
   addNotes(application: Application): void {
-    // Implement notes dialog
     console.log('Adding notes for:', application);
   }
 
   sendMessage(application: Application): void {
-    // Implement messaging functionality
     console.log('Sending message for:', application);
   }
 

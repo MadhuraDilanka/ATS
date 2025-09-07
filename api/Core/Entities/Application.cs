@@ -10,10 +10,9 @@ public class Application : BaseEntity
     public string? CoverLetter { get; set; }
     public string? Notes { get; set; }
     public DateTime AppliedDate { get; set; }
-    public int? Rating { get; set; } // 1-5 scale
+    public int? Rating { get; set; }
     public string? ReviewerNotes { get; set; }
     
-    // Navigation properties
     public virtual Job Job { get; set; } = null!;
     public virtual Candidate Candidate { get; set; } = null!;
     public virtual User? Reviewer { get; set; }

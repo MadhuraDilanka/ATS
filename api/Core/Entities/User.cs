@@ -14,7 +14,6 @@ public class User : BaseEntity
     public string? Department { get; set; }
     public string? JobTitle { get; set; }
     
-    // Navigation properties
     public virtual ICollection<Job> JobsCreated { get; set; } = new List<Job>();
     public virtual ICollection<Interview> InterviewsAsInterviewer { get; set; } = new List<Interview>();
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();

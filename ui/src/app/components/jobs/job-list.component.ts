@@ -252,7 +252,6 @@ export class JobListComponent implements OnInit {
   }
 
   loadJobs(): void {
-    // Mock data - replace with actual API call
     this.jobs = [
       {
         id: 1,
@@ -323,7 +322,6 @@ export class JobListComponent implements OnInit {
 
   deleteJob(job: Job): void {
     if (confirm(`Are you sure you want to delete the job "${job.title}"?`)) {
-      // Implement delete logic here
       console.log('Deleting job:', job);
     }
   }

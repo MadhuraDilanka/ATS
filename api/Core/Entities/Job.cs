@@ -18,10 +18,8 @@ public class Job : BaseEntity
     public int MaxApplications { get; set; }
     public bool IsRemoteAllowed { get; set; }
     
-    // Foreign keys
     public int HiringManagerId { get; set; }
     
-    // Navigation properties
     public virtual User HiringManager { get; set; } = null!;
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
     public virtual ICollection<JobSkill> JobSkills { get; set; } = new List<JobSkill>();

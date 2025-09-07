@@ -17,7 +17,6 @@ public class Candidate : BaseEntity
     public decimal? ExpectedSalary { get; set; }
     public bool IsAvailable { get; set; } = true;
     
-    // Navigation properties
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
     public virtual ICollection<CandidateSkill> CandidateSkills { get; set; } = new List<CandidateSkill>();
     public virtual ICollection<Experience> Experiences { get; set; } = new List<Experience>();

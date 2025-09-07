@@ -355,7 +355,6 @@ export class CandidateListComponent implements OnInit {
   }
 
   loadCandidates(): void {
-    // Mock data - replace with actual API call
     this.candidates = [
       {
         id: 1,
@@ -464,7 +463,6 @@ export class CandidateListComponent implements OnInit {
   }
 
   sendMessage(candidate: Candidate): void {
-    // Implement messaging functionality
     console.log('Sending message to:', candidate);
   }
 

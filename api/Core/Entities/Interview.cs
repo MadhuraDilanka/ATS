@@ -14,10 +14,9 @@ public class Interview : BaseEntity
     public string? MeetingLink { get; set; }
     public string? Notes { get; set; }
     public string? Feedback { get; set; }
-    public int? Rating { get; set; } // 1-5 scale
+    public int? Rating { get; set; }
     public string? Recommendation { get; set; }
     
-    // Navigation properties
     public virtual Application Application { get; set; } = null!;
     public virtual User Interviewer { get; set; } = null!;
 }

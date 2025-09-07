@@ -7,7 +7,6 @@ public class JobSkill : BaseEntity
     public bool IsRequired { get; set; }
     public int YearsOfExperience { get; set; }
     
-    // Navigation properties
     public virtual Job Job { get; set; } = null!;
     public virtual Skill Skill { get; set; } = null!;
 }

@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit {
   currentUser: any;
   UserRole = UserRole;
 
-  // Dashboard KPIs
   dashboardData = {
     totalJobs: 0,
     activeJobs: 0,
@@ -50,8 +49,6 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboardData(): void {
-    // TODO: Implement API calls to get dashboard data
-    // For now, using mock data
     this.dashboardData = {
       totalJobs: 25,
       activeJobs: 12,

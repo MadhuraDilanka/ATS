@@ -24,14 +24,10 @@ export class AuthService {
   private checkCurrentUser(): void {
     const token = this.getToken();
     if (token) {
-      // Handle mock tokens for testing
       if (token.startsWith('mock.jwt.token')) {
-        // For mock tokens, we'll need to get user from localStorage or keep logged in state
-        // This is just for testing until we have real JWT tokens
         return;
       }
       
-      // Handle real JWT tokens
       if (!this.jwtHelper.isTokenExpired(token)) {
         const decodedToken = this.jwtHelper.decodeToken(token);
         const user: User = {
@@ -52,22 +48,10 @@ export class AuthService {
   }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    // Temporary mock authentication for testing
-    // TODO: Replace with real API call when backend auth controller is ready
     return this.mockLogin(loginRequest);
-    
-    // Real API call (commented out until backend is ready):
-    // return this.http.post<LoginResponse>(`${this.apiUrl}/login`, loginRequest)
-    //   .pipe(
-    //     tap(response => {
-    //       localStorage.setItem('token', response.token);
-    //       this.currentUserSubject.next(response.user);
-    //     })
-    //   );
   }
 
   private mockLogin(loginRequest: LoginRequest): Observable<LoginResponse> {
-    // Mock user credentials for testing
     const mockUsers = [
       {
         email: 'hr@ats.com',
@@ -124,10 +108,9 @@ export class AuthService {
     );
 
     if (mockUser) {
-      // Create a mock JWT token
       const mockToken = `mock.jwt.token.${Date.now()}`;
       const expiresAt = new Date();
-      expiresAt.setHours(expiresAt.getHours() + 24); // 24 hours from now
+      expiresAt.setHours(expiresAt.getHours() + 24);
       
       const response: LoginResponse = {
         token: mockToken,
@@ -135,7 +118,6 @@ export class AuthService {
         expiresAt: expiresAt
       };
 
-      // Simulate API delay
       return of(response).pipe(
         tap(response => {
           localStorage.setItem('token', response.token);
@@ -170,12 +152,10 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return false;
     
-    // Handle mock tokens for testing
     if (token.startsWith('mock.jwt.token')) {
       return this.currentUserSubject.value !== null;
     }
     
-    // Handle real JWT tokens
     return token != null && !this.jwtHelper.isTokenExpired(token);
   }
 

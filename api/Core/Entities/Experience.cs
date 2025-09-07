@@ -12,6 +12,5 @@ public class Experience : BaseEntity
     public string? Description { get; set; }
     public string? Achievements { get; set; }
     
-    // Navigation properties
     public virtual Candidate Candidate { get; set; } = null!;
 }

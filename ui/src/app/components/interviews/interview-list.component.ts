@@ -25,7 +25,7 @@ interface Interview {
   jobTitle: string;
   interviewType: string;
   scheduledDate: Date;
-  duration: number; // in minutes
+  duration: number;
   location?: string;
   meetingLink?: string;
   interviewerIds: number[];
@@ -517,7 +517,6 @@ export class InterviewListComponent implements OnInit {
   }
 
   loadInterviews(): void {
-    // Mock data - replace with actual API call
     this.interviews = [
       {
         id: 1,
@@ -652,7 +651,6 @@ export class InterviewListComponent implements OnInit {
 
   cancelInterview(interview: Interview): void {
     if (confirm(`Are you sure you want to cancel the interview with ${interview.candidateName}?`)) {
-      // Implement cancel logic here
       console.log('Cancelling interview:', interview);
     }
   }

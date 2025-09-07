@@ -11,6 +11,5 @@ public class Education : BaseEntity
     public string? Grade { get; set; }
     public string? Description { get; set; }
     
-    // Navigation properties
     public virtual Candidate Candidate { get; set; } = null!;
 }

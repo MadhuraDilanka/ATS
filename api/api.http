@@ -1,6 +1,250 @@
-@api_HostAddress = http://localhost:5244
+@baseUrl = https://localhost:7097
+@token = your_jwt_token_here
 
-GET {{api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Authentication
+
+# Register a new user
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@company.com",
+  "password": "Password123!",
+  "role": 1,
+  "department": "Engineering",
+  "jobTitle": "HR Manager",
+  "phoneNumber": "+1-555-123-4567"
+}
 
 ###
+
+# Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@company.com",
+  "password": "Password123!"
+}
+
+### Dashboard Endpoints
+
+# Get dashboard data
+GET {{baseUrl}}/api/dashboard
+Authorization: Bearer {{token}}
+
+###
+
+# Get quick stats
+GET {{baseUrl}}/api/dashboard/quick-stats
+Authorization: Bearer {{token}}
+
+###
+
+# Get recent activities
+GET {{baseUrl}}/api/dashboard/recent-activities
+Authorization: Bearer {{token}}
+
+### Jobs Endpoints
+
+# Get all jobs
+GET {{baseUrl}}/api/jobs
+Authorization: Bearer {{token}}
+
+###
+
+# Get job by ID
+GET {{baseUrl}}/api/jobs/1
+Authorization: Bearer {{token}}
+
+###
+
+# Create a new job
+POST {{baseUrl}}/api/jobs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Senior Software Engineer",
+  "description": "We are looking for a senior software engineer...",
+  "requirements": "5+ years of experience in .NET, C#, Angular...",
+  "location": "New York, NY",
+  "department": "Engineering",
+  "experienceLevel": 3,
+  "employmentType": 1,
+  "salaryMin": 80000,
+  "salaryMax": 120000,
+  "closingDate": "2025-12-31T23:59:59Z",
+  "maxApplications": 50,
+  "isRemoteAllowed": true,
+  "hiringManagerId": 1
+}
+
+###
+
+# Update a job
+PUT {{baseUrl}}/api/jobs/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Senior Software Engineer - Updated",
+  "description": "Updated description...",
+  "requirements": "Updated requirements...",
+  "location": "Remote",
+  "department": "Engineering",
+  "experienceLevel": 3,
+  "employmentType": 1,
+  "salaryMin": 90000,
+  "salaryMax": 130000,
+  "status": 1,
+  "closingDate": "2025-12-31T23:59:59Z",
+  "maxApplications": 100,
+  "isRemoteAllowed": true
+}
+
+###
+
+# Delete a job
+DELETE {{baseUrl}}/api/jobs/1
+Authorization: Bearer {{token}}
+
+### Candidates Endpoints
+
+# Get all candidates
+GET {{baseUrl}}/api/candidates
+Authorization: Bearer {{token}}
+
+###
+
+# Get candidate by ID
+GET {{baseUrl}}/api/candidates/1
+Authorization: Bearer {{token}}
+
+###
+
+# Create a new candidate
+POST {{baseUrl}}/api/candidates
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@email.com",
+  "phoneNumber": "+1-555-987-6543",
+  "address": "123 Main St, Anytown, USA",
+  "linkedInProfile": "https://linkedin.com/in/janesmith",
+  "gitHubProfile": "https://github.com/janesmith",
+  "portfolio": "https://janesmith.dev",
+  "summary": "Experienced software developer with 8 years of experience...",
+  "yearsOfExperience": 8,
+  "currentJobTitle": "Senior Developer",
+  "currentCompany": "Tech Corp",
+  "expectedSalary": 95000,
+  "isAvailable": true
+}
+
+### Applications Endpoints
+
+# Get all applications
+GET {{baseUrl}}/api/applications
+Authorization: Bearer {{token}}
+
+###
+
+# Get applications by job
+GET {{baseUrl}}/api/applications/job/1
+Authorization: Bearer {{token}}
+
+###
+
+# Get applications by candidate
+GET {{baseUrl}}/api/applications/candidate/1
+Authorization: Bearer {{token}}
+
+###
+
+# Create a new application
+POST {{baseUrl}}/api/applications
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "jobId": 1,
+  "candidateId": 1,
+  "coverLetter": "I am very interested in this position...",
+  "notes": "Application submitted via company website"
+}
+
+###
+
+# Update application
+PUT {{baseUrl}}/api/applications/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": 2,
+  "notes": "Candidate looks promising",
+  "rating": 4,
+  "reviewerNotes": "Strong technical background",
+  "reviewerId": 1
+}
+
+### Interviews Endpoints
+
+# Get all interviews
+GET {{baseUrl}}/api/interviews
+Authorization: Bearer {{token}}
+
+###
+
+# Get interviews by application
+GET {{baseUrl}}/api/interviews/application/1
+Authorization: Bearer {{token}}
+
+###
+
+# Get interviews by interviewer
+GET {{baseUrl}}/api/interviews/interviewer/1
+Authorization: Bearer {{token}}
+
+###
+
+# Create a new interview
+POST {{baseUrl}}/api/interviews
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "applicationId": 1,
+  "interviewerId": 1,
+  "type": 1,
+  "scheduledDateTime": "2025-09-15T14:00:00Z",
+  "durationMinutes": 60,
+  "location": "Conference Room A",
+  "meetingLink": "https://meet.google.com/abc-defg-hij",
+  "notes": "Technical interview - focus on backend development"
+}
+
+###
+
+# Update interview
+PUT {{baseUrl}}/api/interviews/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": 2,
+  "scheduledDateTime": "2025-09-15T15:00:00Z",
+  "durationMinutes": 90,
+  "location": "Conference Room B",
+  "meetingLink": "https://meet.google.com/xyz-uvw-rst",
+  "notes": "Extended interview - includes system design",
+  "feedback": "Candidate performed well in technical questions",
+  "rating": 4,
+  "recommendation": "Proceed to next round"
+}
