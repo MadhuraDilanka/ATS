@@ -12,8 +12,8 @@ using api.Infrastructure.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ATSDbContext))]
-    [Migration("20250906145705_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250912160935_InitialCreateFixed")]
+    partial class InitialCreateFixed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -784,7 +784,7 @@ namespace api.Migrations
                     b.HasOne("api.Core.Entities.Document", "Document")
                         .WithMany("ApplicationDocuments")
                         .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Application");

@@ -781,7 +781,7 @@ namespace api.Migrations
                     b.HasOne("api.Core.Entities.Document", "Document")
                         .WithMany("ApplicationDocuments")
                         .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Application");

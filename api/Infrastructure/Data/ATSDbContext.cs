@@ -176,7 +176,7 @@ public class ATSDbContext : DbContext
             entity.HasOne(ad => ad.Document)
                   .WithMany(d => d.ApplicationDocuments)
                   .HasForeignKey(ad => ad.DocumentId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                  .OnDelete(DeleteBehavior.Restrict);
         });
 
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
