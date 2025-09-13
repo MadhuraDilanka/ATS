@@ -1,132 +1,232 @@
-<mat-toolbar color="primary">
-  <span>ATS Dashboard</span>
-  <span class="spacer"></span>
-  <span *ngIf="currentUser">Welcome, {{currentUser.firstName}} {{currentUser.lastName}}</span>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Logout</span>
-    </button>
-  </mat-menu>
-</mat-toolbar>
-
 <div class="dashboard-container">
-  <!-- KPI Cards -->
-  <mat-grid-list cols="4" rowHeight="150px" gutterSize="16px" class="kpi-grid">
-    <mat-grid-tile>
-      <mat-card class="kpi-card">
-        <mat-card-content>
-          <div class="kpi-content">
-            <mat-icon color="primary" class="kpi-icon">work</mat-icon>
-            <div class="kpi-text">
-              <h2>{{dashboardData.totalJobs}}</h2>
-              <p>Total Jobs</p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-card class="kpi-card">
-        <mat-card-content>
-          <div class="kpi-content">
-            <mat-icon color="accent" class="kpi-icon">assignment</mat-icon>
-            <div class="kpi-text">
-              <h2>{{dashboardData.totalApplications}}</h2>
-              <p>Total Applications</p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-card class="kpi-card">
-        <mat-card-content>
-          <div class="kpi-content">
-            <mat-icon color="warn" class="kpi-icon">calendar_today</mat-icon>
-            <div class="kpi-text">
-              <h2>{{dashboardData.interviewsThisWeek}}</h2>
-              <p>Interviews This Week</p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-card class="kpi-card">
-        <mat-card-content>
-          <div class="kpi-content">
-            <mat-icon style="color: green" class="kpi-icon">check_circle</mat-icon>
-            <div class="kpi-text">
-              <h2>{{dashboardData.hiredThisMonth}}</h2>
-              <p>Hired This Month</p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <!-- Action Cards -->
-  <div class="action-section">
-    <h2>Quick Actions</h2>
-    <mat-grid-list cols="3" rowHeight="200px" gutterSize="16px">
-      <mat-grid-tile *ngIf="currentUser?.role === UserRole.HR || currentUser?.role === UserRole.Manager">
-        <mat-card class="action-card" (click)="navigateToJobs()">
-          <mat-card-content>
-            <mat-icon class="action-icon">work_outline</mat-icon>
-            <h3>Manage Jobs</h3>
-            <p>Create and manage job postings</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile *ngIf="currentUser?.role === UserRole.HR">
-        <mat-card class="action-card" (click)="navigateToCandidates()">
-          <mat-card-content>
-            <mat-icon class="action-icon">people_outline</mat-icon>
-            <h3>View Candidates</h3>
-            <p>Browse and manage candidates</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-card class="action-card" (click)="navigateToApplications()">
-          <mat-card-content>
-            <mat-icon class="action-icon">assignment_ind</mat-icon>
-            <h3>Applications</h3>
-            <p>Review job applications</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-card class="action-card" (click)="navigateToInterviews()">
-          <mat-card-content>
-            <mat-icon class="action-icon">event</mat-icon>
-            <h3>Interviews</h3>
-            <p>Schedule and manage interviews</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <div class="welcome-content">
+      <h1 class="welcome-title">Welcome back, <span *ngIf="currentUser">{{currentUser.firstName}}</span>!</h1>
+      <p class="welcome-subtitle">Here's what's happening with your recruitment process today.</p>
+    </div>
+    <div class="welcome-actions">
+      <button mat-raised-button color="primary" class="primary-action">
+        <mat-icon>add</mat-icon>
+        Create New Job
+      </button>
+    </div>
   </div>
 
-  <!-- Recent Activity Section -->
-  <div class="activity-section">
-    <h2>Recent Activity</h2>
-    <mat-card>
-      <mat-card-content>
-        <p>Recent activity will be displayed here...</p>
-        <!-- TODO: Implement recent activity feed -->
-      </mat-card-content>
-    </mat-card>
+  <!-- KPI Cards -->
+  <div class="metrics-section">
+    <h2 class="section-title">Key Metrics</h2>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon primary">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="metric-content">
+          <span class="metric-value">{{dashboardData.totalJobs}}</span>
+          <span class="metric-label">Active Jobs</span>
+        </div>
+        <div class="metric-trend positive">
+          <mat-icon>trending_up</mat-icon>
+          <span>+12%</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon accent">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="metric-content">
+          <span class="metric-value">{{dashboardData.totalApplications}}</span>
+          <span class="metric-label">Total Applications</span>
+        </div>
+        <div class="metric-trend positive">
+          <mat-icon>trending_up</mat-icon>
+          <span>+25%</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon warning">
+          <mat-icon>calendar_today</mat-icon>
+        </div>
+        <div class="metric-content">
+          <span class="metric-value">{{dashboardData.interviewsThisWeek}}</span>
+          <span class="metric-label">Interviews This Week</span>
+        </div>
+        <div class="metric-trend neutral">
+          <mat-icon>trending_flat</mat-icon>
+          <span>0%</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon success">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="metric-content">
+          <span class="metric-value">{{dashboardData.hiredThisMonth}}</span>
+          <span class="metric-label">Hired This Month</span>
+        </div>
+        <div class="metric-trend positive">
+          <mat-icon>trending_up</mat-icon>
+          <span>+8%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="content-grid">
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3 class="section-subtitle">Quick Actions</h3>
+      <div class="action-grid">
+        <div class="action-card" *ngIf="currentUser?.role === UserRole.HR || currentUser?.role === UserRole.Manager" (click)="navigateToJobs()">
+          <div class="action-icon">
+            <mat-icon>work_outline</mat-icon>
+          </div>
+          <div class="action-content">
+            <h4>Manage Jobs</h4>
+            <p>Create and manage job postings</p>
+          </div>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
+
+        <div class="action-card" *ngIf="currentUser?.role === UserRole.HR" (click)="navigateToCandidates()">
+          <div class="action-icon">
+            <mat-icon>people_outline</mat-icon>
+          </div>
+          <div class="action-content">
+            <h4>View Candidates</h4>
+            <p>Browse and manage candidates</p>
+          </div>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
+
+        <div class="action-card" (click)="navigateToApplications()">
+          <div class="action-icon">
+            <mat-icon>assignment_ind</mat-icon>
+          </div>
+          <div class="action-content">
+            <h4>Applications</h4>
+            <p>Review job applications</p>
+          </div>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
+
+        <div class="action-card" (click)="navigateToInterviews()">
+          <div class="action-icon">
+            <mat-icon>event</mat-icon>
+          </div>
+          <div class="action-content">
+            <h4>Interviews</h4>
+            <p>Schedule and manage interviews</p>
+          </div>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="recent-activity">
+      <h3 class="section-subtitle">Recent Activity</h3>
+      <div class="activity-feed">
+        <div class="activity-item">
+          <div class="activity-icon">
+            <mat-icon>person_add</mat-icon>
+          </div>
+          <div class="activity-content">
+            <p><strong>New application</strong> for Software Engineer position</p>
+            <span class="activity-time">2 hours ago</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon">
+            <mat-icon>event</mat-icon>
+          </div>
+          <div class="activity-content">
+            <p><strong>Interview scheduled</strong> with John Doe</p>
+            <span class="activity-time">4 hours ago</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon">
+            <mat-icon>work</mat-icon>
+          </div>
+          <div class="activity-content">
+            <p><strong>New job posted</strong> - Frontend Developer</p>
+            <span class="activity-time">1 day ago</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="activity-content">
+            <p><strong>Candidate hired</strong> for UX Designer role</p>
+            <span class="activity-time">2 days ago</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="activity-footer">
+        <button mat-button color="primary">View All Activity</button>
+      </div>
+    </div>
+
+    <!-- Upcoming Interviews -->
+    <div class="upcoming-interviews">
+      <h3 class="section-subtitle">Upcoming Interviews</h3>
+      <div class="interview-list">
+        <div class="interview-item">
+          <div class="interview-time">
+            <span class="time">2:30 PM</span>
+            <span class="date">Today</span>
+          </div>
+          <div class="interview-details">
+            <h4>Sarah Johnson</h4>
+            <p>Senior Developer - Technical Interview</p>
+          </div>
+          <button mat-icon-button color="primary">
+            <mat-icon>video_call</mat-icon>
+          </button>
+        </div>
+
+        <div class="interview-item">
+          <div class="interview-time">
+            <span class="time">10:00 AM</span>
+            <span class="date">Tomorrow</span>
+          </div>
+          <div class="interview-details">
+            <h4>Mike Chen</h4>
+            <p>Product Manager - HR Interview</p>
+          </div>
+          <button mat-icon-button color="primary">
+            <mat-icon>video_call</mat-icon>
+          </button>
+        </div>
+
+        <div class="interview-item">
+          <div class="interview-time">
+            <span class="time">3:00 PM</span>
+            <span class="date">Dec 18</span>
+          </div>
+          <div class="interview-details">
+            <h4>Emma Wilson</h4>
+            <p>UX Designer - Portfolio Review</p>
+          </div>
+          <button mat-icon-button color="primary">
+            <mat-icon>video_call</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="interview-footer">
+        <button mat-button color="primary">View All Interviews</button>
+      </div>
+    </div>
   </div>
 </div>

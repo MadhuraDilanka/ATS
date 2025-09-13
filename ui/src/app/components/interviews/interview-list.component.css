@@ -1,0 +1,192 @@
+.interview-list-container {
+  padding: 20px;
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.filters-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filters-section mat-form-field {
+  min-width: 200px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.interviews-table {
+  width: 100%;
+}
+
+.candidate-info {
+  line-height: 1.4;
+}
+
+.candidate-name strong {
+  font-size: 16px;
+  color: #1976d2;
+}
+
+.candidate-email {
+  font-size: 12px;
+  color: #666;
+}
+
+.job-title {
+  font-weight: 500;
+}
+
+.interview-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.interview-stage {
+  font-size: 12px;
+  color: #666;
+}
+
+.datetime-info {
+  line-height: 1.4;
+}
+
+.datetime-info .date,
+.datetime-info .time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.datetime-info mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.location-info {
+  line-height: 1.4;
+}
+
+.location-info .location,
+.location-info .meeting-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.location-info mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.meeting-link a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.meeting-link a:hover {
+  text-decoration: underline;
+}
+
+.interviewers-list {
+  line-height: 1.3;
+}
+
+.interviewer-name {
+  font-size: 12px;
+}
+
+.more-interviewers {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+}
+
+.score-container {
+  text-align: center;
+}
+
+.score-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.score-badge.high-score {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.score-badge.medium-score {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.score-badge.low-score {
+  background-color: #ffcdd2;
+  color: #d32f2f;
+}
+
+.no-score {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+.interview-row {
+  cursor: pointer;
+}
+
+.interview-row:hover {
+  background-color: #f5f5f5;
+}
+
+.interview-row.today {
+  background-color: #e8f5e8;
+}
+
+.interview-row.overdue {
+  background-color: #ffebee;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.no-data mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+
+mat-chip {
+  font-size: 12px;
+}

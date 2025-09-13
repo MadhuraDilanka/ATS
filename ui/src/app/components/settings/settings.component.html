@@ -1,0 +1,84 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Settings</h1>
+    <p>Manage your account and application preferences</p>
+  </div>
+
+  <div class="settings-content">
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          Account Settings
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Profile Information</h3>
+            <p>Update your personal information and contact details</p>
+          </div>
+          <button mat-raised-button color="primary">Edit Profile</button>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Change Password</h3>
+            <p>Keep your account secure with a strong password</p>
+          </div>
+          <button mat-stroked-button>Change Password</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>notifications</mat-icon>
+          Notifications
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Email Notifications</h3>
+            <p>Receive updates about applications and interviews</p>
+          </div>
+          <mat-slide-toggle checked></mat-slide-toggle>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Push Notifications</h3>
+            <p>Get instant notifications on your device</p>
+          </div>
+          <mat-slide-toggle checked></mat-slide-toggle>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>palette</mat-icon>
+          Appearance
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Theme</h3>
+            <p>Choose your preferred color scheme</p>
+          </div>
+          <mat-form-field>
+            <mat-select value="light">
+              <mat-option value="light">Light</mat-option>
+              <mat-option value="dark">Dark</mat-option>
+              <mat-option value="system">System</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

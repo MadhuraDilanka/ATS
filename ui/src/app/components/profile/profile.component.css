@@ -1,0 +1,9 @@
+.profile-container {
+  padding: 24px;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

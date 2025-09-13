@@ -1,96 +1,457 @@
-.spacer {
-  flex: 1 1 auto;
-}
-
 .dashboard-container {
-  padding: 20px;
-  background-color: #f5f5f5;
-  min-height: calc(100vh - 64px);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
 }
 
-.kpi-grid {
-  margin-bottom: 30px;
-}
-
-.kpi-card {
-  width: 100%;
-  height: 100%;
-  cursor: default;
-}
-
-.kpi-content {
+/* Welcome Section */
+.welcome-section {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  height: 100%;
-  padding: 16px;
+  margin-bottom: 32px;
+  padding: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
 }
 
-.kpi-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  margin-right: 16px;
+.welcome-content {
+  flex: 1;
 }
 
-.kpi-text h2 {
+.welcome-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.welcome-title span {
+  color: #fbbf24;
+}
+
+.welcome-subtitle {
+  font-size: 16px;
   margin: 0;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.primary-action {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.primary-action:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Metrics Section */
+.metrics-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: #1f2937;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.3px;
 }
 
-.kpi-text p {
-  margin: 4px 0 0 0;
-  color: #666;
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.metric-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.metric-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metric-icon.primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.metric-icon.accent {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  color: white;
+}
+
+.metric-icon.warning {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  color: #d97706;
+}
+
+.metric-icon.success {
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
+  color: #059669;
+}
+
+.metric-icon mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.metric-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.metric-label {
   font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+  font-weight: 500;
 }
 
-.action-section {
-  margin-bottom: 30px;
+.metric-trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
-.action-section h2 {
-  margin-bottom: 16px;
-  color: #333;
+.metric-trend.positive {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.metric-trend.neutral {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.metric-trend mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  grid-template-areas: 
+    "actions activity"
+    "actions interviews";
+}
+
+.quick-actions {
+  grid-area: actions;
+}
+
+.recent-activity {
+  grid-area: activity;
+}
+
+.upcoming-interviews {
+  grid-area: interviews;
+}
+
+.section-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+}
+
+/* Quick Actions */
+.action-grid {
+  display: grid;
+  gap: 16px;
 }
 
 .action-card {
-  width: 100%;
-  height: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  text-align: center;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .action-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
 }
 
 .action-icon {
-  font-size: 48px;
   width: 48px;
   height: 48px;
-  color: #666;
-  margin-bottom: 16px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
 }
 
-.action-card h3 {
-  margin: 0 0 8px 0;
-  color: #333;
+.action-icon mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
 }
 
-.action-card p {
-  margin: 0;
-  color: #666;
+.action-content {
+  flex: 1;
+}
+
+.action-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.action-content p {
   font-size: 14px;
+  color: #6b7280;
+  margin: 0;
 }
 
-.activity-section h2 {
-  margin-bottom: 16px;
-  color: #333;
+.action-arrow {
+  color: #9ca3af;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  transition: color 0.2s ease;
 }
 
-mat-card {
-  margin-bottom: 16px;
+.action-card:hover .action-arrow {
+  color: #667eea;
+}
+
+/* Activity Feed */
+.recent-activity,
+.upcoming-interviews {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.recent-activity .section-subtitle,
+.upcoming-interviews .section-subtitle {
+  padding: 24px 24px 0 24px;
+}
+
+.activity-feed,
+.interview-list {
+  padding: 0 24px;
+}
+
+.activity-item,
+.interview-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.activity-item:last-child,
+.interview-item:last-child {
+  border-bottom: none;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.activity-icon mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.activity-time {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.activity-footer,
+.interview-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #f3f4f6;
+  text-align: center;
+}
+
+/* Interview Items */
+.interview-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex-shrink: 0;
+  width: 80px;
+}
+
+.interview-time .time {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.interview-time .date {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.interview-details {
+  flex: 1;
+}
+
+.interview-details h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.interview-details p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "actions"
+      "activity"
+      "interviews";
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .welcome-title {
+    font-size: 28px;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-card {
+    padding: 16px;
+  }
+  
+  .action-content h4 {
+    font-size: 15px;
+  }
+  
+  .action-content p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-section {
+    padding: 24px 20px;
+  }
+  
+  .welcome-title {
+    font-size: 24px;
+  }
+  
+  .welcome-subtitle {
+    font-size: 14px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+  }
+  
+  .section-subtitle {
+    font-size: 18px;
+  }
 }

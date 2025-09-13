@@ -1,43 +1,211 @@
-<div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>ATS Login</mat-card-title>
-      <mat-card-subtitle>Applicant Tracking System</mat-card-subtitle>
-    </mat-card-header>
-    
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="Enter your email">
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-            Please enter a valid email
-          </mat-error>
-        </mat-form-field>
+<div class="login-page">
+  <!-- Animated Background -->
+  <div class="animated-background">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+    <div class="floating-shape shape-5"></div>
+  </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" placeholder="Enter your password">
-          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-            Password is required
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-            Password must be at least 6 characters
-          </mat-error>
-        </mat-form-field>
+  <!-- Login Container -->
+  <div class="login-container">
+    <!-- Left Panel - Branding -->
+    <div class="branding-panel">
+      <div class="branding-content">
+        <!-- Logo and Title -->
+        <div class="brand-header">
+          <div class="logo-container">
+            <div class="logo-icon">
+              <mat-icon>work</mat-icon>
+            </div>
+            <div class="logo-text">
+              <h1>ATS Pro</h1>
+              <span>Professional Recruitment Platform</span>
+            </div>
+          </div>
+        </div>
 
-        <button 
-          mat-raised-button 
-          color="primary" 
-          type="submit" 
-          class="full-width"
-          [disabled]="loginForm.invalid || isLoading">
-          {{isLoading ? 'Logging in...' : 'Login'}}
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+        <!-- Features -->
+        <div class="features-showcase">
+          <div class="feature-item" 
+               *ngFor="let feature of features; let i = index"
+               [style.animation-delay.ms]="i * 200">
+            <div class="feature-icon">
+              <mat-icon>{{ feature.icon }}</mat-icon>
+            </div>
+            <div class="feature-text">
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-section">
+          <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Companies</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">10K+</span>
+            <span class="stat-label">Jobs Posted</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">95%</span>
+            <span class="stat-label">Success Rate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Login Form -->
+    <div class="form-panel">
+      <div class="form-container">
+        <!-- Form Header -->
+        <div class="form-header">
+          <h2>Welcome Back</h2>
+          <p>Please sign in to your account to continue</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage" [@slideIn]>
+          <mat-icon>warning</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Email Field -->
+          <div class="input-group">
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-label>Email Address</mat-label>
+              <input 
+                matInput 
+                type="email" 
+                formControlName="email"
+                placeholder="Enter your email address"
+                autocomplete="email">
+              <mat-icon matPrefix>email</mat-icon>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Password Field -->
+          <div class="input-group">
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-label>Password</mat-label>
+              <input 
+                matInput 
+                [type]="hidePassword ? 'password' : 'text'" 
+                formControlName="password"
+                placeholder="Enter your password"
+                autocomplete="current-password">
+              <mat-icon matPrefix>lock</mat-icon>
+              <button 
+                mat-icon-button 
+                matSuffix 
+                type="button"
+                (click)="togglePasswordVisibility()"
+                tabindex="-1">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                Password is required
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+                Password must be at least 6 characters
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Form Options -->
+          <div class="form-options">
+            <mat-checkbox formControlName="rememberMe" class="remember-checkbox">
+              Remember me for 30 days
+            </mat-checkbox>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            class="submit-button"
+            [disabled]="loginForm.invalid || isLoading">
+            <mat-spinner 
+              diameter="24" 
+              *ngIf="isLoading" 
+              class="button-spinner">
+            </mat-spinner>
+            <mat-icon *ngIf="!isLoading">login</mat-icon>
+            <span>{{ isLoading ? 'Signing In...' : 'Sign In' }}</span>
+          </button>
+        </form>
+
+        <!-- Demo Section -->
+        <div class="demo-section">
+          <div class="demo-divider">
+            <span>Try Demo Accounts</span>
+          </div>
+          
+          <div class="demo-accounts">
+            <button 
+              type="button"
+              mat-stroked-button 
+              class="demo-button hr-demo"
+              (click)="fillDemoCredentials('hr')">
+              <mat-icon>admin_panel_settings</mat-icon>
+              <div class="demo-text">
+                <span class="demo-role">HR Manager</span>
+                <small>Full administrative access</small>
+              </div>
+            </button>
+
+            <button 
+              type="button"
+              mat-stroked-button 
+              class="demo-button manager-demo"
+              (click)="fillDemoCredentials('manager')">
+              <mat-icon>supervisor_account</mat-icon>
+              <div class="demo-text">
+                <span class="demo-role">Manager</span>
+                <small>Team management access</small>
+              </div>
+            </button>
+
+            <button 
+              type="button"
+              mat-stroked-button 
+              class="demo-button candidate-demo"
+              (click)="fillDemoCredentials('candidate')">
+              <mat-icon>person</mat-icon>
+              <div class="demo-text">
+                <span class="demo-role">Candidate</span>
+                <small>Job seeker experience</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="form-footer">
+          <p>&copy; 2024 ATS Pro. All rights reserved.</p>
+          <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <span>•</span>
+            <a href="#">Terms of Service</a>
+            <span>•</span>
+            <a href="#">Help</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

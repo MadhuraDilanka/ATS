@@ -1,0 +1,282 @@
+/* Material Icons Fallback */
+mat-icon {
+  font-family: 'Material Icons' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: inherit !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  font-feature-settings: 'liga' !important;
+  -webkit-font-feature-settings: 'liga' !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Ensure icons are properly sized */
+.mat-icon {
+  width: auto !important;
+  height: auto !important;
+}
+
+.sidenav-container {
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.sidenav {
+  width: 280px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar Header */
+.sidenav-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #fff;
+}
+
+.logo-text {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+/* Navigation List */
+.nav-list {
+  padding-top: 20px;
+}
+
+.nav-list .mat-mdc-list-item {
+  margin: 4px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-list .mat-mdc-list-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: translateX(4px);
+}
+
+.nav-list .mat-mdc-list-item.active-link {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: 500;
+}
+
+.nav-list .mat-mdc-list-item .mat-icon {
+  color: inherit;
+  margin-right: 16px;
+}
+
+/* Menu Skeleton Loading */
+.menu-skeleton {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 4px 16px;
+  gap: 16px;
+}
+
+.skeleton-icon {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text {
+  width: 80px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Sidebar Footer */
+.sidenav-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar .mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: capitalize;
+}
+
+/* Toolbar */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: white !important;
+  color: #333 !important;
+}
+
+.toolbar-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 16px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.user-menu-button {
+  color: #667eea;
+}
+
+/* User Menu */
+.user-menu {
+  margin-top: 8px;
+}
+
+.user-menu-header {
+  padding: 16px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.user-menu-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-menu-name {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.user-menu-email {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.logout-button {
+  color: #dc3545 !important;
+}
+
+.logout-button .mat-icon {
+  color: #dc3545 !important;
+}
+
+/* Main Content */
+.main-content {
+  padding: 24px;
+  min-height: calc(100vh - 64px);
+  background-color: #f8f9fa;
+}
+
+/* Hidden utility */
+.hidden {
+  display: none !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 260px;
+  }
+  
+  .main-content {
+    padding: 16px;
+  }
+  
+  .toolbar-title {
+    font-size: 18px;
+    margin-left: 8px;
+  }
+  
+  .logo-text {
+    font-size: 20px;
+  }
+  
+  .sidenav-header {
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 12px;
+  }
+  
+  .user-details {
+    display: none;
+  }
+}
+
+/* Animation for page transitions */
+.main-content router-outlet + * {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

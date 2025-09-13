@@ -1,0 +1,102 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+    
+    <!-- Sidebar Header -->
+    <div class="sidenav-header">
+      <div class="logo-container">
+        <mat-icon class="logo-icon">work</mat-icon>
+        <h2 class="logo-text">ATS Pro</h2>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <mat-nav-list class="nav-list">
+      <div *ngFor="let item of menuItems">
+        <a mat-list-item 
+           [routerLink]="item.route" 
+           routerLinkActive="active-link"
+           *ngIf="currentUser$ | async as user; else loadingUser"
+           [class.hidden]="!canAccess(item.roles, user.role)">
+          <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+          <span matLine>{{ item.label }}</span>
+        </a>
+      </div>
+      
+      <ng-template #loadingUser>
+        <!-- Skeleton loading for menu items -->
+        <div class="menu-skeleton" *ngFor="let item of menuItems">
+          <div class="skeleton-icon"></div>
+          <div class="skeleton-text"></div>
+        </div>
+      </ng-template>
+    </mat-nav-list>
+
+    <!-- Sidebar Footer -->
+    <div class="sidenav-footer">
+      <div class="user-info" *ngIf="currentUser$ | async as user">
+        <div class="user-avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <div class="user-details">
+          <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+          <span class="user-role">{{ user.role }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <!-- Main Content Area -->
+  <mat-sidenav-content>
+    <!-- Top Toolbar -->
+    <mat-toolbar color="primary" class="toolbar">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      
+      <span class="toolbar-title">{{ getPageTitle() }}</span>
+      
+      <div class="toolbar-spacer"></div>
+      
+      <!-- User Menu -->
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      
+      <mat-menu #userMenu="matMenu" class="user-menu">
+        <div class="user-menu-header" *ngIf="currentUser$ | async as user">
+          <div class="user-menu-info">
+            <span class="user-menu-name">{{ user.firstName }} {{ user.lastName }}</span>
+            <span class="user-menu-email">{{ user.email }}</span>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item routerLink="/settings">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()" class="logout-button">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <!-- Page Content -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
